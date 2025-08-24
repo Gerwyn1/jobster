@@ -6,6 +6,7 @@ import FormRow from "../components/FormRow";
 import { toast } from "react-toastify";
 import { loginUser, registerUser } from "../features/user/userSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
   name: "",
@@ -22,6 +23,15 @@ function Register() {
   const [values, setValues] = useState(initialState);
 
   // redux toolkit and useNavigate later
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+    }
+  }, [user, navigate]);
 
   const handleChange = (e) => {
     const name = e.target.name;
