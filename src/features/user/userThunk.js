@@ -1,6 +1,6 @@
-import customFetch from '../../utils/axios';
+import customFetch from "../../utils/axios";
 
-import { logoutUser } from './userSlice';
+import { logoutUser } from "./userSlice";
 
 export const registerUserThunk = async (url, user, thunkAPI) => {
   try {
@@ -31,8 +31,8 @@ export const updateUserThunk = async (url, user, thunkAPI) => {
   } catch (error) {
     // console.log(error.response);
     if (error.response.status === 401) {
-      thunkAPI.dispatch(logoutUser(401));
-      return thunkAPI.rejectWithValue('Unauthorized! Logging Out...');
+      thunkAPI.dispatch(logoutUser());
+      return thunkAPI.rejectWithValue("Unauthorized! Logging Out...");
     }
     return thunkAPI.rejectWithValue(error.response.data.msg);
   }
