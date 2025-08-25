@@ -6,6 +6,11 @@ import {
   getUserFromLocalStorage,
   removeUserFromLocalStorage,
 } from "../../utils/localStorage";
+import {
+  loginUserThunk,
+  registerUserThunk,
+  updateUserThunk,
+} from "./userThunk";
 
 const initialState = {
   isLoading: false,
@@ -16,47 +21,21 @@ const initialState = {
 export const registerUser = createAsyncThunk(
   "user/registerUser",
   async (user, thunkAPI) => {
-    try {
-      const resp = await customFetch.post("/auth/testingRegister", user);
-      console.log(resp);
-      return resp.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.msg);
-    }
+    return registerUserThunk("/auth/register", user, thunkAPI);
   }
 );
 
 export const loginUser = createAsyncThunk(
   "user/loginUser",
   async (user, thunkAPI) => {
-    console.log(user);
-    try {
-      const resp = await customFetch.post("/auth/login", user);
-      return resp.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.msg);
-    }
+    return loginUserThunk("/auth/login", user, thunkAPI);
   }
 );
 
 export const updateUser = createAsyncThunk(
   "user/updateUser",
   async (user, thunkAPI) => {
-    try {
-      const resp = await customFetch.patch("/auth/updateUser", user, {
-        headers: {
-          authorization: `Bearer ${thunkAPI.getState().user.user.token}`,
-        },
-      });
-      return resp.data;
-    } catch (error) {
-      console.log(error.response);
-      if (error.response.status === 401) {
-        thunkAPI.dispatch(logoutUser(401));
-        return thunkAPI.rejectWithValue("Unauthorized! Logging Out...");
-      }
-      return thunkAPI.rejectWithValue(error.response.data.msg);
-    }
+    return updateUserThunk("/auth/updateUser", user, thunkAPI);
   }
 );
 
