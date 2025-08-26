@@ -50,8 +50,6 @@ const userSlice = createSlice({
       state.user = null;
       state.isSidebarOpen = false;
       removeUserFromLocalStorage();
-      console.log("payload:");
-      console.log(payload);
       if (payload) {
         toast.success(payload);
       }
