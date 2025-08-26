@@ -8,7 +8,7 @@ import { showLoading, hideLoading, getAllJobs } from "../allJobs/allJobsSlice";
 import { createJobThunk, deleteJobThunk, editJobThunk } from "./jobThunk";
 
 const initialState = {
-isLoading: false,
+  isLoading: false,
   position: "",
   company: "",
   jobLocation: "",
@@ -54,6 +54,12 @@ const jobSlice = createSlice({
       })
       .addCase(createJob.rejected, (state, { payload }) => {
         state.isLoading = false;
+        toast.error(payload);
+      })
+      .addCase(deleteJob.fulfilled, (state, { payload }) => {
+        toast.success('Job Deleted');
+      })
+      .addCase(deleteJob.rejected, (state, { payload }) => {
         toast.error(payload);
       })
       .addCase(editJob.pending, (state) => {
